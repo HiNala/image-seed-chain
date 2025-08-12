@@ -49,7 +49,7 @@ export function SeedCard({
 
   return (
     <Card className="p-4">
-      <div className="relative h-[45vh] w-full overflow-hidden rounded-xl bg-black/5">
+      <div className="relative h-[42vh] w-full overflow-hidden rounded-xl bg-black/5">
         {/* Base image (seed or last) */}
         {baseUrl ? (
           // eslint-disable-next-line @next/next/no-img-element

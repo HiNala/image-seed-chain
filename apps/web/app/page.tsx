@@ -16,7 +16,7 @@ export default function Home() {
   
   return (
     <div className="mx-auto grid min-h-[calc(100dvh-8rem)] w-full max-w-6xl grid-cols-1 gap-4 px-2 sm:grid-cols-[1.3fr_0.7fr] sm:px-4">
-      <div className="order-2 overflow-hidden sm:order-1">
+      <div className="order-2 sm:order-1">
         <SeedClient initial={initial} />
       </div>
       <aside className="order-1 sm:order-2">

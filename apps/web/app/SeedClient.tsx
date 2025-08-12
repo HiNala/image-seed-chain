@@ -111,14 +111,14 @@ export default function SeedClient({ initial }: { initial: SeedMeta }) {
         </div>
       )}
       <SeedCard meta={meta} justUpdated={Boolean(notice)} generating={isGenerating} seedUrl={lastStableSeedUrlRef.current} />
-      <div className="min-h-0 overflow-hidden">
+      <div className="min-h-0">
         <HistoryStrip onUseAsSeed={(url) => {
           setOverrideSeedUrl(url)
           toast.success('Using selected frame as seed')
         }} />
       </div>
       <PromptBar
-        sticky={false}
+        sticky={true}
         remainingLeft={meta.remainingGenerations}
         externalOverrideUrl={overrideSeedUrl}
         onClearExternalOverride={() => setOverrideSeedUrl(null)}
