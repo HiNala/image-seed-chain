@@ -82,7 +82,7 @@ export default function SeedClient({ initial }: { initial: SeedMeta }) {
   const meta = data || initial
 
   return (
-    <div className="mx-auto grid h-full grid-rows-[1fr_auto_auto] gap-3">
+    <div className="mx-auto grid h-full grid-rows-[1fr_auto_auto] gap-2 sm:gap-3">
       {notice && (
         <div className="mb-3 rounded-xl border border-amber-300/30 bg-amber-200/10 px-3 py-2 text-sm text-amber-100">
           Seed updated by someone else — continue with your seed or switch?

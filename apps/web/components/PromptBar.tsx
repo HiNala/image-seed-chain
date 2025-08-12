@@ -35,7 +35,7 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
 
   return (
     <div
-      className={(sticky ? 'sticky bottom-4 ' : '') + 'mx-auto max-w-3xl rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-xl shadow-ambient'}
+      className={(sticky ? 'sticky bottom-4 ' : '') + 'mx-auto w-full max-w-4xl rounded-2xl border border-white/20 bg-white/10 p-3 sm:p-4 backdrop-blur-xl shadow-ambient'}
       onDragOver={(e) => e.preventDefault()}
       onDrop={onDrop}
       aria-live="polite"
@@ -74,8 +74,8 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
           rows={3}
         />
         
-        <div className="flex flex-wrap items-center gap-3 justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <label className="inline-flex items-center gap-2 text-sm text-white/90 font-medium">
               Lock:
               <input
@@ -84,11 +84,11 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
                 max={100}
                 value={lock}
                 onChange={(e) => setLock(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
-                className="w-20 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-white backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] focus:border-white/40 focus:bg-white/15 transition-all"
+                className="w-16 sm:w-20 rounded-lg border border-white/20 bg-white/10 px-2 sm:px-3 py-2 text-white backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] focus:border-white/40 focus:bg-white/15 transition-all text-sm"
                 title="Number of generations before the seed can be reset (0-100)"
               />
             </label>
-            <label className="ui-press inline-flex cursor-pointer items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-white/90 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:bg-white/15 hover:border-white/30 transition-all font-medium" aria-label="Upload custom seed image">
+            <label className="ui-press inline-flex cursor-pointer items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 sm:px-4 py-2 text-white/90 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:bg-white/15 hover:border-white/30 transition-all font-medium text-sm" aria-label="Upload custom seed image">
               <input
                 type="file"
                 accept="image/png,image/jpeg"
@@ -121,7 +121,7 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
                   }
                 }}
               />
-              📎 Upload Seed
+              📎 Upload
             </label>
           </div>
           <Button 
@@ -129,7 +129,7 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
             disabled={loading || (!!remainingLeft && remainingLeft <= 0 && (lock || 0) <= 0)} 
             loading={loading} 
             title={!!remainingLeft && remainingLeft <= 0 && (lock || 0) <= 0 ? 'Set Lock > 0 to start a new run' : undefined}
-            className="px-6 py-3 text-base font-semibold"
+            className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold w-full sm:w-auto"
           >
             ✨ Evolve
           </Button>
