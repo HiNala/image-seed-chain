@@ -41,7 +41,7 @@ export default function SeedClient({ initial }: { initial: SeedMeta }) {
     }
   }, [data, initial])
 
-  async function onGenerate({ prompt, file, generationsLock, overrideSeedUrl: fromCaller, size }: { prompt: string; file?: File | null; generationsLock?: number; overrideSeedUrl?: string; size?: '512x512' | '768x768' | '1024x1024' }) {
+  async function onGenerate({ prompt, file, generationsLock, overrideSeedUrl: fromCaller, size }: { prompt: string; file?: File | null; generationsLock?: number; overrideSeedUrl?: string; size?: '1024x1024' | '1792x1024' | '1024x1792' }) {
     try {
       // optimistic: show generating state
       setIsGenerating(true)
@@ -61,7 +61,8 @@ export default function SeedClient({ initial }: { initial: SeedMeta }) {
       })
       if (!res.ok) {
         const j = await res.json().catch(() => ({}))
-        throw new Error(j?.error || 'Failed to generate')
+        const errorMessage = j?.error || `Generation failed (${res.status})`
+        throw new Error(errorMessage)
       }
       const next = (await res.json()) as SeedMeta & { queue?: number; etaMs?: number }
       mutate(next, { revalidate: false })

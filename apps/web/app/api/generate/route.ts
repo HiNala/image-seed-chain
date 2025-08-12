@@ -15,7 +15,7 @@ const BodySchema = z.object({
   prompt: z.string().min(1).max(400),
   overrideSeedUrl: z.string().min(1).optional(),
   generationsLock: z.coerce.number().int().min(0).max(100).optional(),
-  size: z.enum(['512x512', '1024x1024']).optional()
+  size: z.enum(['1024x1024', '1792x1024', '1024x1792']).optional()
 })
 
 export async function POST(req: NextRequest) {
@@ -27,6 +27,9 @@ export async function POST(req: NextRequest) {
     if (!parsed.success) return err('BAD_REQUEST', 'Invalid request body', 400)
     const { prompt, overrideSeedUrl, generationsLock, size } = parsed.data
     if (isDisallowed(prompt)) return err('BAD_REQUEST', 'Prompt contains disallowed content', 400)
+    
+    // Better validation for empty prompts
+    if (!prompt.trim()) return err('BAD_REQUEST', 'Prompt cannot be empty', 400)
 
     let seedUrl = overrideSeedUrl
     const currentBefore = await getCurrent()
@@ -62,7 +65,7 @@ export async function POST(req: NextRequest) {
             model: 'dall-e-2',
             prompt,
             image: uploadable,
-            size: (size || '1024x1024') as '512x512' | '1024x1024'
+            size: '1024x1024' as const
           }))
           const b64 = edit.data?.[0]?.b64_json
           if (b64) return Buffer.from(b64, 'base64')
@@ -70,7 +73,7 @@ export async function POST(req: NextRequest) {
           // ignore and fall through to text-to-image
         }
       }
-      const gen = await withTimeout(openai.images.generate({ model: 'dall-e-3', prompt, size: (size || '1024x1024') as '512x512' | '1024x1024' }))
+      const gen = await withTimeout(openai.images.generate({ model: 'dall-e-3', prompt, size: (size || '1024x1024') as '1024x1024' | '1792x1024' | '1024x1792' }))
       const b64 = gen.data?.[0]?.b64_json
       if (!b64) throw new Error('No image returned')
       return Buffer.from(b64, 'base64')

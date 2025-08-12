@@ -41,8 +41,27 @@ function RightNav() {
       </div>
       <div className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-2xl shadow-ambient">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-white/30 via-white/60 to-white/30" />
-        <h3 className="mb-3 font-playfair text-lg text-fg">Quick evolve</h3>
-        <p className="text-sm text-muted">Use the controls below to evolve faster.</p>
+        <h3 className="mb-3 font-playfair text-lg text-fg">Game Control</h3>
+        <p className="text-sm text-muted mb-3">Start fresh or continue evolving.</p>
+        <button
+          onClick={async () => {
+            if (confirm('Reset the game and start fresh? This will clear the current seed.')) {
+              try {
+                const response = await fetch('/api/reset', { method: 'POST' })
+                if (response.ok) {
+                  window.location.reload()
+                } else {
+                  alert('Failed to reset game')
+                }
+              } catch (error) {
+                alert('Error resetting game')
+              }
+            }
+          }}
+          className="ui-press w-full rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] hover:bg-white/15 hover:border-white/30 transition-all"
+        >
+          🔄 Reset Game
+        </button>
       </div>
     </div>
   )

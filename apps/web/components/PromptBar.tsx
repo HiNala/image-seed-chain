@@ -6,13 +6,13 @@ import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
 import { Suggestions } from '@/components/Suggestions'
 
-export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOverrideUrl, onClearExternalOverride }: { onGenerate: (p: { prompt: string; file?: File | null; generationsLock?: number; overrideSeedUrl?: string; size?: '512x512' | '768x768' | '1024x1024' }) => Promise<void>; sticky?: boolean; remainingLeft?: number; externalOverrideUrl?: string | null; onClearExternalOverride?: () => void }) {
+export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOverrideUrl, onClearExternalOverride }: { onGenerate: (p: { prompt: string; file?: File | null; generationsLock?: number; overrideSeedUrl?: string; size?: '1024x1024' | '1792x1024' | '1024x1792' }) => Promise<void>; sticky?: boolean; remainingLeft?: number; externalOverrideUrl?: string | null; onClearExternalOverride?: () => void }) {
   const [prompt, setPrompt] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [lock, setLock] = useState<number>(0)
-  const [size, setSize] = useState<'512x512' | '768x768' | '1024x1024'>('1024x1024')
+  const [size, setSize] = useState<'1024x1024' | '1792x1024' | '1024x1792'>('1024x1024')
 
   async function submit() {
     if (!prompt.trim() || loading) return
@@ -46,14 +46,14 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
         {/* size chips */}
         <div className="flex items-center gap-2 text-xs text-white/90">
           <span className="font-medium">Size:</span>
-          {(['512x512','768x768','1024x1024'] as const).map((s) => (
+          {(['1024x1024','1792x1024','1024x1792'] as const).map((s) => (
             <button
               key={s}
               type="button"
               className={`ui-press rounded-full border px-3 py-1.5 backdrop-blur-lg transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] ${size===s? 'border-white/40 bg-white/20 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]' : 'border-white/20 bg-white/8 text-white/80 hover:bg-white/15 hover:border-white/30'}`}
               onClick={() => setSize(s)}
             >
-              {s.split('x')[0]}
+              {s === '1024x1024' ? 'Square' : s === '1792x1024' ? 'Wide' : 'Tall'}
             </button>
           ))}
         </div>
