@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root { color-scheme: dark light; }
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+html, body { overflow: hidden; }
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+ul[role='list'], ol[role='list'] { list-style: none; }
+img { max-width: 100%; display: block; }
+input, button, textarea, select { font: inherit; }
+:focus { outline: none; }
+
+html { scroll-behavior: smooth; }
+
+/* Gradient background + noise */
+html, body {
+  background: linear-gradient(135deg, #ffedd5 0%, #e9d5ff 50%, #e0f2fe 100%);
+  background-size: 200% 200%;
+  animation: gradient-drift 45s ease-in-out infinite;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.03'/></svg>");
+  z-index: 0;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@keyframes gradient-drift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Typography helpers */
+.font-playfair { font-family: var(--font-playfair), ui-serif, Georgia, serif; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* Micro-interactions */
+.ui-press {
+  transition-property: transform, background-color, border-color, color, opacity, box-shadow, filter;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+.ui-press:hover { transform: translateY(-1px) scale(1.02); }
+.ui-press:active { transform: translateY(0) scale(0.98); }
+
+@keyframes fadeInSoft {
+  from { opacity: 0; transform: scale(0.995); }
+  to { opacity: 1; transform: scale(1); }
+}
+.fade-in { animation: fadeInSoft 220ms ease-out both; }
