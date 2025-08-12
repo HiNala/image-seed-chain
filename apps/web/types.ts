@@ -4,6 +4,8 @@ export type SeedMeta = {
   prompt: string
   createdAt: string
   remainingGenerations?: number
+  queue?: number
+  etaMs?: number
 }
 
 

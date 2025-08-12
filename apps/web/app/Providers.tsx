@@ -28,8 +28,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       value={{
         revalidateOnFocus: false,
         shouldRetryOnError: true,
-        onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
-          const status = (error as any)?.status || (error as any)?.response?.status
+        onErrorRetry: (error: unknown, _key, _config, revalidate, { retryCount }) => {
+          const errorObj = error as { status?: number; response?: { status?: number } }
+          const status = errorObj?.status || errorObj?.response?.status
           if (status && [400, 401, 403, 404].includes(status)) return
           const maxRetry = 4
           if (retryCount >= maxRetry) return

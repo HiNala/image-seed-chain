@@ -114,8 +114,9 @@ export function PromptBar({ onGenerate, sticky = true, remainingLeft, externalOv
                       const { url } = await res.json()
                       setUploadedUrl(url)
                       toast.success('Seed uploaded')
-                    } catch (err: any) {
-                      toast.error(err?.message || 'Upload failed')
+                    } catch (err: unknown) {
+                      const message = err instanceof Error ? err.message : 'Upload failed'
+                      toast.error(message)
                     }
                   }
                 }}

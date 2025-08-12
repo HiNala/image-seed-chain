@@ -1,10 +1,11 @@
 import { getById } from '@/lib/blob'
-import type { Metadata, PageProps, ResolvingMetadata } from 'next'
+import type { Metadata, ResolvingMetadata } from 'next'
 
-type Params = { id: string }
+type Params = Promise<{ id: string }>
 
-export default async function FramePage({ params }: PageProps<Params>) {
-  const meta = await getById(params.id)
+export default async function FramePage({ params }: { params: Params }) {
+  const { id } = await params
+  const meta = await getById(id)
   if (!meta) return <div className="p-6 text-fg">Not found</div>
   return (
     <main className="mx-auto max-w-3xl p-4">
@@ -23,10 +24,10 @@ export default async function FramePage({ params }: PageProps<Params>) {
 }
 
 export async function generateMetadata(
-  { params }: PageProps<Params>,
-  _parent: ResolvingMetadata
+  { params }: { params: Params }
 ): Promise<Metadata> {
-  const m = await getById(params.id)
+  const { id } = await params
+  const m = await getById(id)
   if (!m) return {
     title: 'SeedChain frame',
     description: 'Frame not found'

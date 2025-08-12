@@ -10,8 +10,8 @@ export function useCurrent() {
 export function useHistory(limit = 20) {
   return useSWR<SeedMeta[]>(`/api/history?limit=${limit}`,
     async (url: string) => {
-      const res = await jsonFetcher<any>(url)
-      return Array.isArray(res) ? (res as SeedMeta[]) : (res?.items ?? [])
+      const res = await jsonFetcher<{ items?: SeedMeta[] } | SeedMeta[]>(url)
+      return Array.isArray(res) ? res : (res?.items ?? [])
     },
     { refreshInterval: 12000 }
   )

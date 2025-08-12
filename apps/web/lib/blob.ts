@@ -192,12 +192,12 @@ const tinyPngBase64 =
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAH+wK3u7e3iQAAAABJRU5ErkJggg=='
 const tinyPngDataUrl = `data:image/png;base64,${tinyPngBase64}`
 
-async function bootstrapGenesis(localPreferred: boolean): Promise<SeedMeta | null> {
+async function bootstrapGenesis(_localPreferred: boolean): Promise<SeedMeta | null> {
   try {
     const bytes = Buffer.from(tinyPngBase64, 'base64')
-    const { url, path } = await savePng(bytes)
+    const { url, path: imagePath } = await savePng(bytes)
     const record: SeedMeta = {
-      id: path.split('_').pop()?.replace('.png', '') || 'genesis',
+      id: imagePath.split('_').pop()?.replace('.png', '') || 'genesis',
       url,
       prompt: 'Genesis seed',
       createdAt: new Date().toISOString(),
@@ -206,10 +206,10 @@ async function bootstrapGenesis(localPreferred: boolean): Promise<SeedMeta | nul
     await setCurrent(record)
     // also drop sidecar json for history
     if (useLocal) {
-      const sidecar = path.join(PUBLIC_DIR, path.replace('.png', '.json'))
+      const sidecar = path.join(PUBLIC_DIR, imagePath.replace('.png', '.json'))
       await fs.writeFile(sidecar, JSON.stringify(record, null, 2), 'utf8')
     } else {
-      const tsId = path.replace('.png', '.json')
+      const tsId = imagePath.replace('.png', '.json')
       await put(tsId, JSON.stringify(record, null, 2), { access: 'public', contentType: 'application/json' })
     }
     return record

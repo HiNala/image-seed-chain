@@ -1,5 +1,5 @@
 "use client"
-import type { SeedMeta } from '@/components/SeedCard'
+import type { SeedMeta } from '@/types'
 import SeedClient from './SeedClient'
 
 export default function Home() {
@@ -53,7 +53,7 @@ function RightNav() {
                 } else {
                   alert('Failed to reset game')
                 }
-              } catch (error) {
+              } catch {
                 alert('Error resetting game')
               }
             }

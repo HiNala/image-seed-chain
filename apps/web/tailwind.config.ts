@@ -43,7 +43,7 @@ export default {
   },
   plugins: [
     function addVariablesForColors({ addBase, theme }: any) {
-      const flattenColorPalette = (obj: any, sep = '-') =>
+      const flattenColorPalette = (obj: any, sep = '-'): Record<string, any> =>
         Object.assign(
           {},
           ...Object.entries(obj || {}).map(([k, v]) =>

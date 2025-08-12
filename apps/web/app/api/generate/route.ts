@@ -46,6 +46,10 @@ export async function POST(req: NextRequest) {
       return err('BAD_REQUEST', 'Seed is free; set generationsLock (1–100) to start a new run', 400)
     }
 
+    if (!process.env.OPENAI_API_KEY) {
+      return err('INTERNAL', 'OpenAI API key not configured', 500)
+    }
+    
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
     const withTimeout = async <T,>(promise: Promise<T>, ms = 60_000): Promise<T> => {

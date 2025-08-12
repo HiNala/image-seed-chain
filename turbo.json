@@ -3,14 +3,17 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**"],
+      "env": ["OPENAI_API_KEY", "BLOB_READ_WRITE_TOKEN", "NEXT_PUBLIC_BASE_URL"]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "env": ["OPENAI_API_KEY", "BLOB_READ_WRITE_TOKEN", "NEXT_PUBLIC_BASE_URL"]
     },
     "lint": {},
     "start": {
-      "cache": false
+      "cache": false,
+      "env": ["OPENAI_API_KEY", "BLOB_READ_WRITE_TOKEN", "NEXT_PUBLIC_BASE_URL"]
     }
   }
 }

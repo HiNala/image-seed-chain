@@ -1,8 +1,6 @@
 "use client"
-import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
-import { Tooltip } from '@/components/ui/Tooltip'
 import { useEffect, useRef, useState } from 'react'
 import type { SeedMeta } from '@/types'
 
